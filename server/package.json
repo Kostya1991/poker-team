@@ -1,0 +1,17 @@
+{
+    "name": "poker-team-server",
+    "version": "0.0.0",
+    "main": "index.js",
+    "author": "Konstantin Lysov",
+    "license": "ISC",
+    "scripts": {
+        "server": "nodemon index"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.10"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^5.1.0"
+    }
+}

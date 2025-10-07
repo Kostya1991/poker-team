@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ButtonComponent } from '../../ui/button/button.component';
 import { GameExampleComponent } from '../../ui/game-example/game-example.component';
+import { GameService } from '../../services/game.service';
 
 @Component({
   selector: 'app-home-page',
@@ -8,10 +9,12 @@ import { GameExampleComponent } from '../../ui/game-example/game-example.compone
   styleUrl: './home-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ButtonComponent, GameExampleComponent],
+  providers: [GameService],
 })
 export class HomePageComponent {
-  /** todo: метод должен отправлять запрос на BE, создавая игру  */
+  private gameService = inject(GameService);
+
   public createGame(): void {
-    console.log('created game...');
+    this.gameService.createGame().subscribe((r) => console.log(r));
   }
 }
