@@ -17,8 +17,20 @@
 .active {
   background-color: #61a8ff;
   color: #ffffff;
+  transform: translateY(-10px);
+  transition: transform 0.5s;
 }
 
 .back {
   background-color: #61a8ff;
+
+  &.active {
+    background-color: #305077;
+    transform: translateY(0);
+  }
+}
+
+.card-user-name {
+  color: #000000;
+  text-align: center;
 }

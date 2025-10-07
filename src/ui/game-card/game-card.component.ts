@@ -1,7 +1,6 @@
 import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
-
-type CardMode = 'front' | 'back';
+import { CardMode } from '../../models/card-mode.type';
 
 @Component({
   selector: 'app-game-card',
@@ -13,13 +12,15 @@ type CardMode = 'front' | 'back';
 export class GameCardComponent {
   public mode = input.required<CardMode>();
 
-  public rate = input.required<number>();
+  public rate = input.required<number | undefined>();
 
   public active = input.required<boolean>();
+
+  public userName = input.required<string>();
 
   public select = output<number>({ alias: 'selectCard' });
 
   public onSelect(): void {
-    this.select.emit(this.rate());
+    this.select.emit(this.rate() || 0);
   }
 }

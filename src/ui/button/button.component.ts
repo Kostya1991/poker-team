@@ -1,14 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-
-type ButtonType =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'danger'
-  | 'warning'
-  | 'info'
-  | 'light'
-  | 'dark';
+import { ButtonType } from '../../models/button-type.type';
 
 @Component({
   selector: 'app-button',
