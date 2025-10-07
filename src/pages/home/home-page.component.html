@@ -1,0 +1,14 @@
+<section class="home-page">
+  <div class="home-page__left">
+    <h2>Scrum Poker для командной оценки задач</h2>
+    <app-button (onClick)="createGame()" text="Создать игру" />
+  </div>
+
+  <div class="home-page__right">
+    <div class="mini-board-game">
+      <div style="width: 40px; height: 80px">
+        <app-game-card [mode]="'front'" [rate]="1" [active]="false"></app-game-card>
+      </div>
+    </div>
+  </div>
+</section>

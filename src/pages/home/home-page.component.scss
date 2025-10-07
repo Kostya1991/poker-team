@@ -1,0 +1,29 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.home-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  height: 100%;
+
+  &__left {
+    max-width: 520px;
+    width: 100%;
+    height: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__right {
+    max-width: 720px;
+    width: 100%;
+    height: 420px;
+    background-color: #e8e9ea;
+    border-radius: 8px;
+  }
+}

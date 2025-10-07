@@ -1,0 +1,5 @@
+<div class="card" [ngClass]="{ active: active(), back: mode() === 'back' }" onclick="onSelect()">
+  @if (mode() === "front") {
+  {{ rate() }}
+  }
+</div>
