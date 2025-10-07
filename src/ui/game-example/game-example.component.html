@@ -1,0 +1,80 @@
+<div class="mini-board-game">
+  <h3 class="mini-board-game__title">Оценка задачи №123</h3>
+
+  <div class="mini-board-game__top">
+    <div style="width: 40px; height: 80px">
+      <app-game-card
+        [userName]="'Игрок'"
+        [mode]="mode()"
+        [rate]="1"
+        [active]="false"
+        [disabled]="isFinishGame()"
+      ></app-game-card>
+    </div>
+  </div>
+
+  <div class="mini-board-game__center">
+    <div class="mini-board-game__center-left">
+      <div style="width: 40px; height: 80px">
+        <app-game-card
+          [userName]="'Игрок'"
+          [mode]="mode()"
+          [rate]="2"
+          [active]="false"
+          [disabled]="isFinishGame()"
+        ></app-game-card>
+      </div>
+    </div>
+
+    <div class="mini-board-game__center-center">
+      <div style="width: 400px; height: 150px">
+        <app-game-table>
+          @if (mode() === "back") {
+          <app-button (onClick)="turnOver('front')" text="Перевернуть карты" />
+          } @else {
+          <app-button (onClick)="turnOver('back')" text="Перезапустить игру" />
+          }
+        </app-game-table>
+      </div>
+    </div>
+
+    <div class="mini-board-game__center-right">
+      <div style="width: 40px; height: 80px">
+        <app-game-card
+          [userName]="'Игрок'"
+          [mode]="mode()"
+          [rate]="3"
+          [active]="false"
+          [disabled]="isFinishGame()"
+        ></app-game-card>
+      </div>
+    </div>
+  </div>
+
+  <div class="mini-board-game__bottom">
+    <div style="width: 40px; height: 80px">
+      <app-game-card
+        [userName]="'Игрок'"
+        [mode]="mode()"
+        [rate]="activeCard()"
+        [active]="activeCard() !== undefined && mode() === 'back'"
+        [disabled]="isFinishGame()"
+      ></app-game-card>
+    </div>
+  </div>
+
+  <div class="mini-board-game__user-cards">
+    @for (item of userCards(); track item) {
+    <div style="width: 40px; height: 80px">
+      <app-game-card
+        [userName]="''"
+        (selectCard)="selectCard($event)"
+        [mode]="'front'"
+        [rate]="item"
+        [disabled]="isFinishGame()"
+        [active]="activeCard() === item"
+      ></app-game-card>
+    </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<div
+  class="card"
+  [ngClass]="{ active: active(), back: mode() === 'back', disabled: disabled() }"
+  (click)="onSelect()"
+>
+  @if (mode() === "front" && rate()) {
+  {{ rate() }}
+  } @else if (mode() === "front" && !rate()) { ? }
+</div>
+
+<span class="card-user-name">{{ userName() }}</span>

@@ -1,0 +1,17 @@
+:root {
+  --background-color-dark: #1a2935;
+  --color-text-dark: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  background-color: var(--background-color-dark);
+  color: var(--color-text-dark);
+}
