@@ -4,10 +4,11 @@
   <div class="mini-board-game__top">
     <div style="width: 40px; height: 80px">
       <app-game-card
-        [userName]="'Игрок 1'"
+        [userName]="'Игрок'"
         [mode]="mode()"
         [rate]="1"
         [active]="false"
+        [disabled]="isFinishGame()"
       ></app-game-card>
     </div>
   </div>
@@ -16,10 +17,11 @@
     <div class="mini-board-game__center-left">
       <div style="width: 40px; height: 80px">
         <app-game-card
-          [userName]="'Игрок 2'"
+          [userName]="'Игрок'"
           [mode]="mode()"
           [rate]="2"
           [active]="false"
+          [disabled]="isFinishGame()"
         ></app-game-card>
       </div>
     </div>
@@ -39,10 +41,11 @@
     <div class="mini-board-game__center-right">
       <div style="width: 40px; height: 80px">
         <app-game-card
-          [userName]="'Игрок 3'"
+          [userName]="'Игрок'"
           [mode]="mode()"
           [rate]="3"
           [active]="false"
+          [disabled]="isFinishGame()"
         ></app-game-card>
       </div>
     </div>
@@ -51,10 +54,11 @@
   <div class="mini-board-game__bottom">
     <div style="width: 40px; height: 80px">
       <app-game-card
-        [userName]="'Игрок 4'"
+        [userName]="'Игрок'"
         [mode]="mode()"
         [rate]="activeCard()"
         [active]="activeCard() !== undefined && mode() === 'back'"
+        [disabled]="isFinishGame()"
       ></app-game-card>
     </div>
   </div>
@@ -67,6 +71,7 @@
         (selectCard)="selectCard($event)"
         [mode]="'front'"
         [rate]="item"
+        [disabled]="isFinishGame()"
         [active]="activeCard() === item"
       ></app-game-card>
     </div>

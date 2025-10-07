@@ -20,11 +20,14 @@ export class GameExampleComponent {
 
   public activeCard = signal<number | undefined>(undefined);
 
+  public isFinishGame = signal<boolean>(false);
+
   public turnOver(mode: CardMode): void {
     if (mode === 'back') {
       this.activeCard.set(undefined);
     }
 
+    this.isFinishGame.set(mode === 'front');
     this.mode.set(mode);
   }
 

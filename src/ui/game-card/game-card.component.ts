@@ -18,9 +18,15 @@ export class GameCardComponent {
 
   public userName = input.required<string>();
 
+  public disabled = input<boolean>(false);
+
   public select = output<number>({ alias: 'selectCard' });
 
   public onSelect(): void {
+    if (this.disabled()) {
+      return;
+    }
+
     this.select.emit(this.rate() || 0);
   }
 }
