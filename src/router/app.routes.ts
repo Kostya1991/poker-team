@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { HomePageComponent } from '../pages/home/home-page.component';
 import { GameSettingsPageComponent } from '../pages/game-settings/game-settings-page.component';
 import { gameGuard } from './game.guard';
+import { gameResolver } from './game.resolver';
 
 export const routes: Routes = [
   {
@@ -14,6 +15,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('../pages/game/game-page.component').then((c) => c.GamePageComponent),
     canActivate: [gameGuard],
+    resolve: {
+      game: gameResolver,
+    },
   },
   {
     path: 'game-settings',

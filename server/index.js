@@ -11,6 +11,7 @@ app.use(express.json());
 /**
  * Структура игры: {
  *  id: идентификатор игры
+ *  name: наименование игры
  *  users: [{
  *   id: идентификатор игрока,
  *   name: Имя игрока
@@ -28,7 +29,7 @@ app.post('/create-game', (req, res) => {
     name: body.userName,
   };
 
-  GAMES.push({ id: gameId, users: [user] });
+  GAMES.push({ id: gameId, name: body.name, users: [user] });
 
   res.status(200).json({ id: gameId, user });
 });
@@ -39,6 +40,14 @@ app.get('/check-game/:id', (req, res) => {
   const game = GAMES.find((item) => item.id === gameId);
 
   res.status(200).json({ game: !!game });
+});
+
+app.get('/game/:id', (req, res) => {
+  const gameId = req.params['id'];
+
+  const game = GAMES.find((item) => item.id === gameId);
+
+  res.status(200).json({ game });
 });
 
 app.listen(port, () => {
