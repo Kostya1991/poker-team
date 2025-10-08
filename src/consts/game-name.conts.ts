@@ -1,1 +1,0 @@
-export const GAME_NAME_PARAMS = 'GAME_NAME_PARAMS';
