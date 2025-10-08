@@ -1,0 +1,54 @@
+<div class="card game-card">
+  <h5 class="card-title">Настройки игры</h5>
+  <div class="card-body">
+    <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="basic-url" class="form-label">Название игры</label>
+        <input
+          type="text"
+          class="form-control"
+          [class.is-invalid]="
+            settingsForm.controls.gameName.invalid &&
+            (settingsForm.controls.gameName.touched || settingsForm.controls.gameName.dirty)
+          "
+          [class.is-valid]="
+            settingsForm.controls.gameName.valid &&
+            (settingsForm.controls.gameName.touched || settingsForm.controls.gameName.dirty)
+          "
+          placeholder="Название игры"
+          formControlName="gameName"
+        />
+        @if (settingsForm.controls.gameName.invalid && (settingsForm.controls.gameName.touched ||
+        settingsForm.controls.gameName.dirty)) {
+        <div class="invalid-feedback">Заполните название игры</div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <label for="basic-url" class="form-label">Имя пользователя</label>
+        <input
+          type="text"
+          class="form-control"
+          [class.is-invalid]="
+            settingsForm.controls.userName.invalid &&
+            (settingsForm.controls.userName.touched || settingsForm.controls.userName.dirty)
+          "
+          [class.is-valid]="
+            settingsForm.controls.userName.valid &&
+            (settingsForm.controls.userName.touched || settingsForm.controls.userName.dirty)
+          "
+          placeholder="Имя пользователя"
+          formControlName="userName"
+        />
+        @if (settingsForm.controls.userName.invalid && (settingsForm.controls.userName.touched ||
+        settingsForm.controls.userName.dirty)) {
+        <div class="invalid-feedback">Заполните имя пользователя</div>
+        }
+      </div>
+
+      <div class="game-card__create">
+        <app-button [text]="'Создать игру'" [mode]="'submit'"></app-button>
+      </div>
+    </form>
+  </div>
+</div>
