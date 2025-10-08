@@ -15,8 +15,11 @@ app.use(express.json());
  *  users: [{
  *   id: идентификатор игрока,
  *   name: Имя игрока
+ *   madeChoice: Сделал ли игрок выбор
  *  }]
  * }
+ *
+ * максимальное количество игроков - 24 (учесть в проверки на доступность подключения)
  */
 const GAMES = [];
 
@@ -27,6 +30,7 @@ app.post('/create-game', (req, res) => {
   const user = {
     id: randomUUID(),
     name: body.userName,
+    madeChoice: false,
   };
 
   GAMES.push({ id: gameId, name: body.name, users: [user] });

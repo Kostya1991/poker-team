@@ -2,4 +2,137 @@
 
 <div class="game">
   <h1 class="game__title">{{ gameState.name }}</h1>
+
+  <div class="game__board">
+    <!-- Верхняя панель 8 игроков -->
+    <div class="game__board-row game__board-top">
+      <div style="width: 50px; height: 100px">
+        <app-game-card
+          [userName]="'Игрок'"
+          [mode]="'front'"
+          [rate]="3"
+          [active]="false"
+          [disabled]="false"
+        ></app-game-card>
+      </div>
+    </div>
+
+    <!-- Левая панель 4 игрока -->
+    <div class="game__board-column game__board-left">
+      <div style="width: 50px; height: 100px">
+        <app-game-card
+          [userName]="'Игрок'"
+          [mode]="'front'"
+          [rate]="3"
+          [active]="false"
+          [disabled]="false"
+        ></app-game-card>
+      </div>
+    </div>
+
+    <!-- Игровое поле -->
+    <div class="game__board-table">
+      <app-game-table>
+        <!-- тут должно быть корректное условие, что карты перевернуты -->
+        @if (true) {
+        <app-button text="Перевернуть карты" />
+        } @else {
+        <app-button text="Перезапустить игру" />
+        }
+      </app-game-table>
+    </div>
+
+    <!-- Правая панель 4 игрока -->
+    <div class="game__board-column game__board-right">
+      <div style="width: 50px; height: 100px">
+        <app-game-card
+          [userName]="'Игрок'"
+          [mode]="'front'"
+          [rate]="3"
+          [active]="false"
+          [disabled]="false"
+        ></app-game-card>
+      </div>
+    </div>
+
+    <!-- Нижняя панель 8 игроков -->
+    <div class="game__board-row game__board-bottom">
+      <div style="width: 50px; height: 100px">
+        <app-game-card
+          [userName]="'Игрок'"
+          [mode]="'front'"
+          [rate]="3"
+          [active]="false"
+          [disabled]="false"
+        ></app-game-card>
+      </div>
+    </div>
+
+    <!-- Карты игрока -->
+    <div class="game__board-row game__board-cards">
+      <div style="width: 50px; height: 100px">
+        <app-game-card
+          [userName]="'Игрок'"
+          [mode]="'front'"
+          [rate]="3"
+          [active]="false"
+          [disabled]="false"
+        ></app-game-card>
+      </div>
+      <div style="width: 50px; height: 100px">
+        <app-game-card
+          [userName]="'Игрок'"
+          [mode]="'front'"
+          [rate]="3"
+          [active]="false"
+          [disabled]="false"
+        ></app-game-card>
+      </div>
+      <div style="width: 50px; height: 100px">
+        <app-game-card
+          [userName]="'Игрок'"
+          [mode]="'front'"
+          [rate]="3"
+          [active]="false"
+          [disabled]="false"
+        ></app-game-card>
+      </div>
+      <div style="width: 50px; height: 100px">
+        <app-game-card
+          [userName]="'Игрок'"
+          [mode]="'front'"
+          [rate]="3"
+          [active]="false"
+          [disabled]="false"
+        ></app-game-card>
+      </div>
+      <div style="width: 50px; height: 100px">
+        <app-game-card
+          [userName]="'Игрок'"
+          [mode]="'front'"
+          [rate]="3"
+          [active]="false"
+          [disabled]="false"
+        ></app-game-card>
+      </div>
+      <div style="width: 50px; height: 100px">
+        <app-game-card
+          [userName]="'Игрок'"
+          [mode]="'front'"
+          [rate]="3"
+          [active]="false"
+          [disabled]="false"
+        ></app-game-card>
+      </div>
+      <div style="width: 50px; height: 100px">
+        <app-game-card
+          [userName]="'Игрок'"
+          [mode]="'front'"
+          [rate]="3"
+          [active]="false"
+          [disabled]="false"
+        ></app-game-card>
+      </div>
+    </div>
+  </div>
 </div>
