@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ButtonComponent } from '../../ui/button/button.component';
 import { GameExampleComponent } from '../../ui/game-example/game-example.component';
-import { GameService } from '../../services/game.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-page',
@@ -9,12 +9,11 @@ import { GameService } from '../../services/game.service';
   styleUrl: './home-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ButtonComponent, GameExampleComponent],
-  providers: [GameService],
 })
 export class HomePageComponent {
-  private gameService = inject(GameService);
+  private router = inject(Router);
 
   public createGame(): void {
-    this.gameService.createGame().subscribe((r) => console.log(r));
+    this.router.navigate(['game-settings']);
   }
 }
