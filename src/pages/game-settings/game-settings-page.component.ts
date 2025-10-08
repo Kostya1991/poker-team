@@ -31,7 +31,10 @@ export class GameSettingsPageComponent {
     }
 
     this.gameService
-      .createGame({ userName: this.settingsForm.controls.userName.value })
+      .createGame({
+        userName: this.settingsForm.controls.userName.value,
+        name: this.settingsForm.controls.gameName.value,
+      })
       .subscribe((response: CreateGame.Response) => {
         this.userService.setUser(response.user);
         this.router.navigate(['/game', response.id]);
