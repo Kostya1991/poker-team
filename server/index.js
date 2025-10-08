@@ -33,6 +33,14 @@ app.post('/create-game', (req, res) => {
   res.status(200).json({ id: gameId, user });
 });
 
+app.get('/check-game/:id', (req, res) => {
+  const gameId = req.params['id'];
+
+  const game = GAMES.find((item) => item.id === gameId);
+
+  res.status(200).json({ game: !!game });
+});
+
 app.listen(port, () => {
   console.log(`Сервер запущен на порту ${port}`);
 });

@@ -6,7 +6,6 @@ import { GameService } from '../../services/game.service';
 import { UserService } from '../../services/user.service';
 import { CreateGame } from '../../models/create-game.namespase';
 import { Router } from '@angular/router';
-import { GAME_NAME_PARAMS } from '../../consts/game-name.conts';
 
 @Component({
   selector: 'app-game-settings-page',
@@ -14,7 +13,6 @@ import { GAME_NAME_PARAMS } from '../../consts/game-name.conts';
   styleUrl: './game-settings-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ButtonComponent, ReactiveFormsModule],
-  providers: [GameService],
 })
 export class GameSettingsPageComponent {
   private gameService: GameService = inject(GameService);
@@ -36,11 +34,7 @@ export class GameSettingsPageComponent {
       .createGame({ userName: this.settingsForm.controls.userName.value })
       .subscribe((response: CreateGame.Response) => {
         this.userService.setUser(response.user);
-        this.router.navigate(['/game', response.id], {
-          state: {
-            [GAME_NAME_PARAMS]: this.settingsForm.controls.gameName.value,
-          },
-        });
+        this.router.navigate(['/game', response.id]);
       });
   }
 }

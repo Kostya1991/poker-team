@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { GAME_NAME_PARAMS } from '../../consts/game-name.conts';
 
 @Component({
   selector: 'app-game-page',
@@ -7,9 +6,4 @@ import { GAME_NAME_PARAMS } from '../../consts/game-name.conts';
   styleUrl: './game-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GamePageComponent {
-  constructor() {
-    // todo: тут получаем наименование игры
-    console.log(history.state[GAME_NAME_PARAMS]);
-  }
-}
+export class GamePageComponent {}

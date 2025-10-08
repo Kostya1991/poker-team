@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomePageComponent } from '../pages/home/home-page.component';
 import { GameSettingsPageComponent } from '../pages/game-settings/game-settings-page.component';
+import { gameGuard } from './game.guard';
 
 export const routes: Routes = [
   {
@@ -12,6 +13,7 @@ export const routes: Routes = [
     path: 'game/:id',
     loadComponent: () =>
       import('../pages/game/game-page.component').then((c) => c.GamePageComponent),
+    canActivate: [gameGuard],
   },
   {
     path: 'game-settings',
