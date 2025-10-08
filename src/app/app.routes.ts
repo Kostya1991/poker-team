@@ -9,6 +9,11 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'game/:id',
+    loadComponent: () =>
+      import('../pages/game/game-page.component').then((c) => c.GamePageComponent),
+  },
+  {
     path: 'game-settings',
     component: GameSettingsPageComponent,
     pathMatch: 'full',

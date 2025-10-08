@@ -3,6 +3,10 @@ import { ButtonComponent } from '../../ui/button/button.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SettingsForm } from '../../models/settingsForm.interface';
 import { GameService } from '../../services/game.service';
+import { UserService } from '../../services/user.service';
+import { CreateGame } from '../../models/create-game.namespase';
+import { Router } from '@angular/router';
+import { GAME_NAME_PARAMS } from '../../consts/game-name.conts';
 
 @Component({
   selector: 'app-game-settings-page',
@@ -13,7 +17,9 @@ import { GameService } from '../../services/game.service';
   providers: [GameService],
 })
 export class GameSettingsPageComponent {
-  private gameService = inject(GameService);
+  private gameService: GameService = inject(GameService);
+  private userService: UserService = inject(UserService);
+  private router: Router = inject(Router);
 
   public settingsForm = new FormGroup<SettingsForm>({
     gameName: new FormControl('', { validators: [Validators.required], nonNullable: true }),
@@ -28,8 +34,13 @@ export class GameSettingsPageComponent {
 
     this.gameService
       .createGame({ userName: this.settingsForm.controls.userName.value })
-      .subscribe((res) => {
-        console.log(res);
+      .subscribe((response: CreateGame.Response) => {
+        this.userService.setUser(response.user);
+        this.router.navigate(['/game', response.id], {
+          state: {
+            [GAME_NAME_PARAMS]: this.settingsForm.controls.gameName.value,
+          },
+        });
       });
   }
 }
