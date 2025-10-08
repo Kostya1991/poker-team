@@ -2,7 +2,7 @@
   <h3 class="mini-board-game__title">Оценка задачи №123</h3>
 
   <div class="mini-board-game__top">
-    <div style="width: 40px; height: 80px">
+    <div class="card-game">
       <app-game-card
         [userName]="'Игрок'"
         [mode]="mode()"
@@ -15,7 +15,7 @@
 
   <div class="mini-board-game__center">
     <div class="mini-board-game__center-left">
-      <div style="width: 40px; height: 80px">
+      <div class="card-game">
         <app-game-card
           [userName]="'Игрок'"
           [mode]="mode()"
@@ -27,7 +27,7 @@
     </div>
 
     <div class="mini-board-game__center-center">
-      <div style="width: 400px; height: 150px">
+      <div style="width: 400px; height: 150px; color: #000000">
         <app-game-table>
           @if (mode() === "back") {
           <app-button (onClick)="turnOver('front')" text="Перевернуть карты" />
@@ -39,7 +39,7 @@
     </div>
 
     <div class="mini-board-game__center-right">
-      <div style="width: 40px; height: 80px">
+      <div class="card-game">
         <app-game-card
           [userName]="'Игрок'"
           [mode]="mode()"
@@ -52,7 +52,7 @@
   </div>
 
   <div class="mini-board-game__bottom">
-    <div style="width: 40px; height: 80px">
+    <div class="card-game">
       <app-game-card
         [userName]="'Игрок'"
         [mode]="mode()"
@@ -65,7 +65,7 @@
 
   <div class="mini-board-game__user-cards">
     @for (item of userCards(); track item) {
-    <div style="width: 40px; height: 80px">
+    <div class="card-game">
       <app-game-card
         [userName]="''"
         (selectCard)="selectCard($event)"
