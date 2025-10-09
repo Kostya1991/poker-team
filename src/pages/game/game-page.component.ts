@@ -7,6 +7,7 @@ import { GameService } from '../../services/game.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-game-page',
@@ -23,9 +24,11 @@ export class GamePageComponent {
 
   private gameService: GameService = inject(GameService);
 
+  private userService: UserService = inject(UserService);
+
   public title = toSignal(
     this.gameService
-      .getGame(this.activatedRoute.snapshot.params['id'])
+      .getGame(this.activatedRoute.snapshot.params['id'], this.userService.user?.id)
       .pipe(map((response) => response.name)),
     { initialValue: '' }
   );

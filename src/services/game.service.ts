@@ -17,7 +17,11 @@ export class GameService {
     return this.http.get<CheckGame>(`http://localhost:3000/check-game/${id}`);
   }
 
-  public getGame(id: string): Observable<Game> {
-    return this.http.get<Game>(`http://localhost:3000/game/${id}`);
+  public getGame(id: string, userId: string | undefined): Observable<Game> {
+    return this.http.get<Game>(`http://localhost:3000/game/${id}`, {
+      headers: {
+        'user-id': userId || '',
+      },
+    });
   }
 }
