@@ -16,6 +16,7 @@ app.use(express.json());
  *   id: идентификатор игрока,
  *   name: Имя игрока
  *   madeChoice: Сделал ли игрок выбор
+ *   rate: оценка, выбранная игроком
  *  }]
  * }
  *
@@ -31,6 +32,7 @@ app.post('/create-game', (req, res) => {
     id: randomUUID(),
     name: body.userName,
     madeChoice: false,
+    rate: undefined,
   };
 
   GAMES.push({ id: gameId, name: body.name, users: [user] });
