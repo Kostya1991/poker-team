@@ -53,7 +53,7 @@ app.get('/game/:id', (req, res) => {
 
   const game = GAMES.find((item) => item.id === gameId);
 
-  res.status(200).json({ game });
+  res.status(200).json({ ...game });
 });
 
 app.listen(port, () => {

@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { ActivatedRoute, Data } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Game } from '../../models/game.interface';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
 import { GameTableComponent } from '../../ui/game-table/game-table.component';
 import { ButtonComponent } from '../../ui/button/button.component';
 import { GameCardComponent } from '../../ui/game-card/game-card.component';
+import { GameService } from '../../services/game.service';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-game-page',
@@ -15,19 +16,19 @@ import { GameCardComponent } from '../../ui/game-card/game-card.component';
   imports: [GameTableComponent, ButtonComponent, GameCardComponent],
 })
 export class GamePageComponent {
+  /** todo: получать данные из SSE events */
+  public game = signal<Game>({ id: 'sdfsdfsdf', name: 'Игра 123-ЗД', users: [] } as Game);
+
   private activatedRoute = inject(ActivatedRoute);
 
-  private data = toSignal<Data>(this.activatedRoute.data.pipe(map((data) => data['game'])));
+  private gameService: GameService = inject(GameService);
 
-  public game = computed(() => {
-    const data = this.data();
-
-    if (!data) {
-      return {} as Game;
-    }
-
-    return data['game'] as Game;
-  });
+  public title = toSignal(
+    this.gameService
+      .getGame(this.activatedRoute.snapshot.params['id'])
+      .pipe(map((response) => response.name)),
+    { initialValue: '' }
+  );
 
   public disableTurnButton = signal<boolean>(true);
 }
