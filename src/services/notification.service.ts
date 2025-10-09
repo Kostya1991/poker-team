@@ -11,11 +11,16 @@ export class NotificationService {
   }
 
   public showAlert(message: string, mode: AlertMode): void {
-    this.alertsState().push({
-      message,
-      mode,
-      id: Math.random().toString(),
-    });
+    const alerts = [
+      ...this.alertsState(),
+      {
+        message,
+        mode,
+        id: Math.random().toString(),
+      },
+    ];
+
+    this.alertsState.set(alerts);
   }
 
   public closeAlert(id: string): void {

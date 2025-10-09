@@ -29,6 +29,6 @@ export class SseConsumerService {
       return;
     }
 
-    this.notificationService.showAlert(data.message, 'warning');
+    this.notificationService.showAlert(data.message, 'primary');
   }
 }

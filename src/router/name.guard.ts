@@ -7,7 +7,7 @@ export const nameGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
   const router = inject(Router);
 
   const user = userService.user;
-  console.log(user);
+
   if (!user || !user.name) {
     const path = router.parseUrl(`create-user?returnUrl=${route.params['id']}`);
     return new RedirectCommand(path);
