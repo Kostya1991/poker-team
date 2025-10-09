@@ -1,9 +1,9 @@
 @let usersForTopPanel = users().slice(0, 8); @let usersForBottomPanel = users().slice(8, 16); @let
 usersForLeftPanel = users().slice(16, 20); @let usersForRightPanel = users().slice(20); @let endGame
-= finishGame();
+= game().isFinish || finishGame();
 
 <div class="game">
-  <h1 class="game__title">{{ title() }}</h1>
+  <h1 class="game__title">{{ game().name }}</h1>
 
   <div class="game__board">
     <!-- Верхняя панель 8 игроков -->

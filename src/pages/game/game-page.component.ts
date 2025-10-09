@@ -5,7 +5,7 @@ import { ButtonComponent } from '../../ui/button/button.component';
 import { GameCardComponent } from '../../ui/game-card/game-card.component';
 import { GameService } from '../../services/game.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user.service';
 
@@ -35,14 +35,13 @@ export class GamePageComponent {
     initialValue: '',
   });
 
-  public title = toSignal(
-    this.gameService
-      .getGame(this.gameId(), this.userService.user?.id)
-      .pipe(map((response) => response.name)),
-    { initialValue: '' }
-  );
+  public game = toSignal(this.gameService.getGame(this.gameId(), this.userService.user?.id), {
+    initialValue: { id: '', isFinish: false, name: '', users: [] } as Game,
+  });
 
-  public disableTurnButton = computed(() => this.users().some((user) => user.madeChoice));
+  public disableTurnButton = computed(
+    () => this.game().isFinish || this.users().some((user) => user.madeChoice)
+  );
 
   public finishGame = signal<boolean>(false);
 
@@ -69,6 +68,8 @@ export class GamePageComponent {
 
   public turnCards(isFinish: boolean): void {
     this.finishGame.set(isFinish);
+
+    this.gameService.endGame({ isFinish, gameId: this.gameId() }).subscribe();
 
     if (!isFinish) {
       this.userSelectCard.set(undefined);

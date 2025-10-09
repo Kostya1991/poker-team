@@ -12,6 +12,7 @@ app.use(express.json());
  * Структура игры: {
  *  id: идентификатор игры
  *  name: наименование игры
+ *  isFinish: завершена ли игра
  *  users: [{
  *   id: идентификатор игрока,
  *   name: Имя игрока
@@ -37,7 +38,7 @@ app.post('/create-game', (req, res) => {
     rate: undefined,
   };
 
-  GAMES.push({ id: gameId, name: body.name, users: [user] });
+  GAMES.push({ id: gameId, name: body.name, isFinish: false, users: [user] });
 
   res.status(200).json({ id: gameId, user });
 });
@@ -122,6 +123,16 @@ app.post('/update-user', (req, res) => {
       })}\n\n`
     );
   });
+
+  res.status(200).send();
+});
+
+app.post('/end-game', (req, res) => {
+  const body = req.body;
+
+  const game = GAMES.find((item) => item.id === body.gameId);
+
+  game.isFinish = body.isFinish;
 
   res.status(200).send();
 });

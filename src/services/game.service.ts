@@ -34,4 +34,8 @@ export class GameService {
       },
     });
   }
+
+  public endGame(payload: { isFinish: boolean; gameId: string }): Observable<void> {
+    return this.http.post<void>('http://localhost:3000/end-game', payload);
+  }
 }
