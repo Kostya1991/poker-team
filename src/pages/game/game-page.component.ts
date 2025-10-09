@@ -9,6 +9,8 @@ import { map } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user.service';
 
+const USER_CARDS: number[] = [1, 2, 3, 5, 8, 13, 21];
+
 @Component({
   selector: 'app-game-page',
   templateUrl: './game-page.component.html',
@@ -25,6 +27,10 @@ export class GamePageComponent {
 
   public users = this.gameService.users;
 
+  public usersCard = signal<number[]>(USER_CARDS);
+
+  public userSelectCard = signal<number | undefined>(undefined);
+
   public gameId = toSignal(this.activatedRoute.params.pipe(map((params) => params['id'])), {
     initialValue: '',
   });
@@ -39,6 +45,8 @@ export class GamePageComponent {
   public disableTurnButton = signal<boolean>(true);
 
   public selectCard(rate: number): void {
+    this.userSelectCard.set(rate);
+
     const user = this.userService.user;
 
     if (!user) {
