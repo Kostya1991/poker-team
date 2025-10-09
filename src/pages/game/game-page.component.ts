@@ -17,14 +17,13 @@ import { UserService } from '../../services/user.service';
   imports: [GameTableComponent, ButtonComponent, GameCardComponent],
 })
 export class GamePageComponent {
-  /** todo: получать данные из SSE events */
-  public game = signal<Game>({ id: 'sdfsdfsdf', name: 'Игра 123-ЗД', users: [] } as Game);
-
   private activatedRoute = inject(ActivatedRoute);
 
   private gameService: GameService = inject(GameService);
 
   private userService: UserService = inject(UserService);
+
+  public users = this.gameService.users;
 
   public title = toSignal(
     this.gameService

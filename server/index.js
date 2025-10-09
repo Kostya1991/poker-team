@@ -65,7 +65,12 @@ app.get('/game/:id', (req, res) => {
 
     SSE_CONNECTIONS.forEach((connection) => {
       connection.write(
-        `data: ${JSON.stringify({ type: 'User-Connection', message, users: game.users })}\n\n`
+        `data: ${JSON.stringify({
+          type: 'User-Connection',
+          message,
+          creatoreId: userId,
+          users: game.users,
+        })}\n\n`
       );
     });
   }
@@ -85,6 +90,7 @@ app.get('/events', (req, res) => {
     `data: ${JSON.stringify({
       type: 'Open-Connect',
       message: 'Соединение открыто',
+      creatoreId: null,
       users: [],
     })}\n\n`
   );

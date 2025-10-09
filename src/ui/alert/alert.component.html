@@ -1,0 +1,3 @@
+@for (alert of alerts(); track $index) {
+<div [class]="'alert alert-' + alert.mode" role="alert">{{ alert.message }}</div>
+}

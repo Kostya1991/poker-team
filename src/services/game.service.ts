@@ -1,13 +1,24 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { CreateGame } from '../models/create-game.namespase';
 import { Observable } from 'rxjs';
 import { CheckGame } from '../models/check-game.interface';
 import { Game } from '../models/game.interface';
+import { User } from '../models/user.interface';
 
 @Injectable({ providedIn: 'root' })
 export class GameService {
   private http = inject(HttpClient);
+
+  private usersState = signal<User[]>([]);
+
+  public get users(): WritableSignal<User[]> {
+    return this.usersState;
+  }
+
+  public updateUsers(users: User[]): void {
+    this.usersState.set(users);
+  }
 
   public createGame(request: CreateGame.Request): Observable<CreateGame.Response> {
     return this.http.post<CreateGame.Response>('http://localhost:3000/create-game', request);
