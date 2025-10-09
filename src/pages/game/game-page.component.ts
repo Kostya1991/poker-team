@@ -25,12 +25,35 @@ export class GamePageComponent {
 
   public users = this.gameService.users;
 
+  public gameId = toSignal(this.activatedRoute.params.pipe(map((params) => params['id'])), {
+    initialValue: '',
+  });
+
   public title = toSignal(
     this.gameService
-      .getGame(this.activatedRoute.snapshot.params['id'], this.userService.user?.id)
+      .getGame(this.gameId(), this.userService.user?.id)
       .pipe(map((response) => response.name)),
     { initialValue: '' }
   );
 
   public disableTurnButton = signal<boolean>(true);
+
+  public selectCard(rate: number): void {
+    const user = this.userService.user;
+
+    if (!user) {
+      return;
+    }
+
+    this.userService
+      .updateUser({
+        userId: user.id,
+        gameId: this.gameId(),
+        userData: {
+          madeChoice: true,
+          rate,
+        },
+      })
+      .subscribe(() => this.userService.setUser({ ...user, madeChoice: true, rate }));
+  }
 }

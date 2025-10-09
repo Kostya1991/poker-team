@@ -96,6 +96,36 @@ app.get('/game/:id', (req, res) => {
   res.status(200).json({ ...game });
 });
 
+/** Обновление данных игрока */
+app.post('/update-user', (req, res) => {
+  const body = req.body;
+
+  const game = GAMES.find((item) => item.id === body.gameId);
+
+  const users = game.users.map((user) => {
+    if (user.id === body.userId) {
+      return { ...user, ...body.userData };
+    }
+
+    return user;
+  });
+
+  game.users = users;
+
+  SSE_CONNECTIONS.forEach((connection) => {
+    connection.write(
+      `data: ${JSON.stringify({
+        type: 'User-Update',
+        message: '',
+        creatoreId: null,
+        users: game.users,
+      })}\n\n`
+    );
+  });
+
+  res.status(200).send();
+});
+
 // SSE
 app.get('/events', (req, res) => {
   res.setHeader('Cache-Control', 'no-cache');

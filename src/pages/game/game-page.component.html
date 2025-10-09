@@ -78,6 +78,17 @@ usersForLeftPanel = users().slice(16, 20); @let usersForRightPanel = users().sli
     </div>
 
     <!-- Карты игрока -->
-    <div class="game__board-row game__board-cards"></div>
+    <div class="game__board-row game__board-cards">
+      <div style="width: 50px; height: 100px">
+        <app-game-card
+          [userName]="''"
+          [mode]="'front'"
+          [rate]="3"
+          [active]="false"
+          [disabled]="false"
+          (selectCard)="selectCard($event)"
+        ></app-game-card>
+      </div>
+    </div>
   </div>
 </div>

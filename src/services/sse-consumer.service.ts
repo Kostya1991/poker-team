@@ -16,6 +16,9 @@ export class SseConsumerService {
       case SseEvent.UserConnection:
         this.userConnection(data);
         break;
+      case SseEvent.UserUpdate:
+        this.userUpdate(data);
+        break;
     }
   }
 
@@ -30,5 +33,10 @@ export class SseConsumerService {
     }
 
     this.notificationService.showAlert(data.message, 'primary');
+  }
+
+  /** Обработка обновления данных пользователя */
+  private userUpdate(data: EventData): void {
+    this.gameService.updateUsers(data.users);
   }
 }
