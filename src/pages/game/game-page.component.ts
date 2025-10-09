@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Data } from '@angular/router';
 import { Game } from '../../models/game.interface';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -28,4 +28,6 @@ export class GamePageComponent {
 
     return data['game'] as Game;
   });
+
+  public disableTurnButton = signal<boolean>(true);
 }
