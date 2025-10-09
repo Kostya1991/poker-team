@@ -42,13 +42,31 @@ app.post('/create-game', (req, res) => {
   res.status(200).json({ id: gameId, user });
 });
 
+/** Создание пользователя */
+app.post('/create-user', (req, res) => {
+  const body = req.body;
+
+  const game = GAMES.find((item) => item.id === body.gameId);
+
+  const user = {
+    id: randomUUID(),
+    name: body.userName,
+    madeChoice: false,
+    rate: undefined,
+  };
+
+  game.users.push(user);
+
+  res.status(200).json({ ...user });
+});
+
 /** Проверка существования игры */
 app.get('/check-game/:id', (req, res) => {
   const gameId = req.params['id'];
 
   const game = GAMES.find((item) => item.id === gameId);
 
-  res.status(200).json({ game: !!game });
+  res.status(200).json(!!game);
 });
 
 /** получение игры по идентификатору - т.е. поделючение к игре */

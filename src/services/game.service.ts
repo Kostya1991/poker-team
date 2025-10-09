@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { CreateGame } from '../models/create-game.namespase';
 import { Observable } from 'rxjs';
-import { CheckGame } from '../models/check-game.interface';
 import { Game } from '../models/game.interface';
 import { User } from '../models/user.interface';
 
@@ -24,8 +23,8 @@ export class GameService {
     return this.http.post<CreateGame.Response>('http://localhost:3000/create-game', request);
   }
 
-  public checkGame(id: string): Observable<CheckGame> {
-    return this.http.get<CheckGame>(`http://localhost:3000/check-game/${id}`);
+  public checkGame(id: string): Observable<boolean> {
+    return this.http.get<boolean>(`http://localhost:3000/check-game/${id}`);
   }
 
   public getGame(id: string, userId: string | undefined): Observable<Game> {

@@ -16,6 +16,10 @@ export class AlertComponent {
     effect(() => {
       const alert = this.alerts()[0];
 
+      if (!alert) {
+        return;
+      }
+
       this.notificationService.closeAlert(alert.id);
     });
   }

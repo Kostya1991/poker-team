@@ -12,7 +12,6 @@ export class SseConsumerService {
   private gameService = inject(GameService);
 
   public dataProcessingHandler(data: EventData): void {
-    console.log(data.type);
     switch (data.type) {
       case SseEvent.UserConnection:
         this.userConnection(data);

@@ -1,0 +1,21 @@
+<div class="card user-card">
+  <h5 class="card-title">Заполните имя пользователя</h5>
+  <div class="card-body">
+    <label for="basic-url" class="form-label">Имя пользователя</label>
+    <input
+      type="text"
+      class="form-control"
+      [class.is-invalid]="userName.invalid && (userName.touched || userName.dirty)"
+      [class.is-valid]="userName.valid && (userName.touched || userName.dirty)"
+      placeholder="Имя пользователя"
+      [formControl]="userName"
+    />
+    @if (userName.invalid && (userName.touched || userName.dirty)) {
+    <div class="invalid-feedback">Заполните имя пользователя</div>
+    }
+
+    <div class="user-card__create">
+      <app-button (onClick)="createUser()" [text]="'Создать игру'" [mode]="'submit'"></app-button>
+    </div>
+  </div>
+</div>
