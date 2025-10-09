@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Game } from '../../models/game.interface';
 import { GameTableComponent } from '../../ui/game-table/game-table.component';
 import { ButtonComponent } from '../../ui/button/button.component';
@@ -29,7 +29,7 @@ export class GamePageComponent {
 
   public usersCard = signal<number[]>(USER_CARDS);
 
-  public userSelectCard = signal<number | undefined>(undefined);
+  public userSelectCard = signal<number | undefined>(this.userService.user?.rate);
 
   public gameId = toSignal(this.activatedRoute.params.pipe(map((params) => params['id'])), {
     initialValue: '',
@@ -42,7 +42,9 @@ export class GamePageComponent {
     { initialValue: '' }
   );
 
-  public disableTurnButton = signal<boolean>(true);
+  public disableTurnButton = computed(() => this.users().some((user) => user.madeChoice));
+
+  public finishGame = signal<boolean>(false);
 
   public selectCard(rate: number): void {
     this.userSelectCard.set(rate);
@@ -63,5 +65,28 @@ export class GamePageComponent {
         },
       })
       .subscribe(() => this.userService.setUser({ ...user, madeChoice: true, rate }));
+  }
+
+  public turnCards(isFinish: boolean): void {
+    this.finishGame.set(isFinish);
+
+    if (!isFinish) {
+      this.userSelectCard.set(undefined);
+      const user = this.userService.user;
+
+      if (!user) {
+        return;
+      }
+      this.userService
+        .updateUser({
+          userId: user.id,
+          gameId: this.gameId(),
+          userData: {
+            madeChoice: false,
+            rate: undefined,
+          },
+        })
+        .subscribe(() => this.userService.setUser({ ...user, madeChoice: false, rate: undefined }));
+    }
   }
 }
