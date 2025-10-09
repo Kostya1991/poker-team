@@ -7,6 +7,7 @@ import { GameService } from '../../services/game.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-game-page',
@@ -16,16 +17,17 @@ import { ActivatedRoute } from '@angular/router';
   imports: [GameTableComponent, ButtonComponent, GameCardComponent],
 })
 export class GamePageComponent {
-  /** todo: получать данные из SSE events */
-  public game = signal<Game>({ id: 'sdfsdfsdf', name: 'Игра 123-ЗД', users: [] } as Game);
-
   private activatedRoute = inject(ActivatedRoute);
 
   private gameService: GameService = inject(GameService);
 
+  private userService: UserService = inject(UserService);
+
+  public users = this.gameService.users;
+
   public title = toSignal(
     this.gameService
-      .getGame(this.activatedRoute.snapshot.params['id'])
+      .getGame(this.activatedRoute.snapshot.params['id'], this.userService.user?.id)
       .pipe(map((response) => response.name)),
     { initialValue: '' }
   );

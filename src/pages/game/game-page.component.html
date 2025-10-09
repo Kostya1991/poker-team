@@ -1,6 +1,5 @@
-@let gameState = game(); @let usersForTopPanel = gameState.users.slice(0, 8); @let
-usersForBottomPanel = gameState.users.slice(8, 16); @let usersForLeftPanel =
-gameState.users.slice(16, 20); @let usersForRightPanel = gameState.users.slice(20);
+@let usersForTopPanel = users().slice(0, 8); @let usersForBottomPanel = users().slice(8, 16); @let
+usersForLeftPanel = users().slice(16, 20); @let usersForRightPanel = users().slice(20);
 
 <div class="game">
   <h1 class="game__title">{{ title() }}</h1>

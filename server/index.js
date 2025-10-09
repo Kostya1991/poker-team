@@ -23,7 +23,9 @@ app.use(express.json());
  * максимальное количество игроков - 24 (учесть в проверки на доступность подключения)
  */
 const GAMES = [];
+const SSE_CONNECTIONS = [];
 
+/** Создание игры */
 app.post('/create-game', (req, res) => {
   const gameId = randomUUID();
   const body = req.body;
@@ -40,20 +42,84 @@ app.post('/create-game', (req, res) => {
   res.status(200).json({ id: gameId, user });
 });
 
+/** Создание пользователя */
+app.post('/create-user', (req, res) => {
+  const body = req.body;
+
+  const game = GAMES.find((item) => item.id === body.gameId);
+
+  const user = {
+    id: randomUUID(),
+    name: body.userName,
+    madeChoice: false,
+    rate: undefined,
+  };
+
+  game.users.push(user);
+
+  res.status(200).json({ ...user });
+});
+
+/** Проверка существования игры */
 app.get('/check-game/:id', (req, res) => {
   const gameId = req.params['id'];
 
   const game = GAMES.find((item) => item.id === gameId);
 
-  res.status(200).json({ game: !!game });
+  res.status(200).json(!!game);
 });
 
+/** получение игры по идентификатору - т.е. поделючение к игре */
 app.get('/game/:id', (req, res) => {
   const gameId = req.params['id'];
 
   const game = GAMES.find((item) => item.id === gameId);
 
+  const userId = req.headers['user-id'];
+
+  if (game) {
+    const user = game.users.find((user) => user.id === userId);
+    const message = `Пользователь ${user.name} подключился к игре!`;
+
+    SSE_CONNECTIONS.forEach((connection) => {
+      connection.write(
+        `data: ${JSON.stringify({
+          type: 'User-Connection',
+          message,
+          creatoreId: userId,
+          users: game.users,
+        })}\n\n`
+      );
+    });
+  }
+
   res.status(200).json({ ...game });
+});
+
+// SSE
+app.get('/events', (req, res) => {
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+
+  // Отправляем приветственное сообщение
+  res.write(
+    `data: ${JSON.stringify({
+      type: 'Open-Connect',
+      message: 'Соединение открыто',
+      creatoreId: null,
+      users: [],
+    })}\n\n`
+  );
+
+  /** Добавляем слушателя в массив */
+  SSE_CONNECTIONS.push(res);
+
+  // Обработка закрытия соединения
+  req.on('close', () => {
+    res.end();
+  });
 });
 
 app.listen(port, () => {
