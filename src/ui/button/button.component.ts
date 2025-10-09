@@ -15,6 +15,8 @@ export class ButtonComponent {
 
   public mode = input<ButtonMode>('button');
 
+  public disabled = input<boolean>(false);
+
   public click = output<void>({ alias: 'onClick' });
 
   public onClick(): void {

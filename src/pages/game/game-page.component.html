@@ -3,7 +3,7 @@ usersForBottomPanel = gameState.users.slice(8, 16); @let usersForLeftPanel =
 gameState.users.slice(16, 20); @let usersForRightPanel = gameState.users.slice(20);
 
 <div class="game">
-  <h1 class="game__title">{{ gameState.name }}</h1>
+  <h1 class="game__title">{{ title() }}</h1>
 
   <div class="game__board">
     <!-- Верхняя панель 8 игроков -->
@@ -13,7 +13,7 @@ gameState.users.slice(16, 20); @let usersForRightPanel = gameState.users.slice(2
         <app-game-card
           [userName]="user.name"
           [mode]="'back'"
-          [rate]="3"
+          [rate]="user.rate"
           [active]="user.madeChoice"
           [disabled]="false"
         ></app-game-card>
@@ -28,7 +28,7 @@ gameState.users.slice(16, 20); @let usersForRightPanel = gameState.users.slice(2
         <app-game-card
           [userName]="user.name"
           [mode]="'back'"
-          [rate]="3"
+          [rate]="user.rate"
           [active]="user.madeChoice"
           [disabled]="false"
         ></app-game-card>
@@ -41,7 +41,7 @@ gameState.users.slice(16, 20); @let usersForRightPanel = gameState.users.slice(2
       <app-game-table>
         <!-- тут должно быть корректное условие, что карты перевернуты -->
         @if (true) {
-        <app-button text="Перевернуть карты" />
+        <app-button [disabled]="disableTurnButton()" text="Перевернуть карты" />
         } @else {
         <app-button text="Перезапустить игру" />
         }
@@ -55,7 +55,7 @@ gameState.users.slice(16, 20); @let usersForRightPanel = gameState.users.slice(2
         <app-game-card
           [userName]="user.name"
           [mode]="'back'"
-          [rate]="3"
+          [rate]="user.rate"
           [active]="user.madeChoice"
           [disabled]="false"
         ></app-game-card>
@@ -70,7 +70,7 @@ gameState.users.slice(16, 20); @let usersForRightPanel = gameState.users.slice(2
         <app-game-card
           [userName]="user.name"
           [mode]="'back'"
-          [rate]="3"
+          [rate]="user.rate"
           [active]="user.madeChoice"
           [disabled]="false"
         ></app-game-card>

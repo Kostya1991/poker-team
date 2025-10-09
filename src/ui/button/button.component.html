@@ -1,1 +1,3 @@
-<button [type]="mode()" [class]="'btn btn-' + type()" (click)="onClick()">{{ text() }}</button>
+<button [type]="mode()" [class]="'btn btn-' + type()" (click)="onClick()" [disabled]="disabled()">
+  {{ text() }}
+</button>
