@@ -1,6 +1,6 @@
 {
     "/api": {
-        "target": "https://poker-team-server.vercel.app",
+        "target": "http://localhost:3000",
         "secure": false,
         "changeOrigin": true,
         "logLevel": "debug",
