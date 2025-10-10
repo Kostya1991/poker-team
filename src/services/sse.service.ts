@@ -6,7 +6,7 @@ import { SseConsumerService } from './sse-consumer.service';
 export class SseService {
   private sseConsumerService: SseConsumerService = inject(SseConsumerService);
 
-  private readonly eventSource = new EventSource('http://localhost:3000/events');
+  private readonly eventSource = new EventSource('/api/events');
 
   public init(): void {
     // Обработчик получения данных

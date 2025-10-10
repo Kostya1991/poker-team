@@ -31,14 +31,14 @@ export class UserService {
   }
 
   public createUser(request: CreateUser.Request): Observable<User> {
-    return this.http.post<User>('http://localhost:3000/create-user', request);
+    return this.http.post<User>('/api/create-user', request);
   }
 
   public updateUser(request: UpdateUser.Request): Observable<void> {
-    return this.http.post<void>('http://localhost:3000/update-user', request);
+    return this.http.post<void>('/api/update-user', request);
   }
 
   public removeUser(request: DeleteUser.Request): Observable<void> {
-    return this.http.post<void>('http://localhost:3000/delete-user', request);
+    return this.http.post<void>('/api/delete-user', request);
   }
 }
