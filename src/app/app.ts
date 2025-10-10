@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
 import { EventType, Router, RouterOutlet } from '@angular/router';
 import { SseService } from '../services/sse.service';
 import { SessionStorageService } from '../services/session-storage.service';
@@ -20,6 +20,7 @@ export class App implements OnInit, OnDestroy {
   private sessionStorageService = inject(SessionStorageService);
   private userService = inject(UserService);
   private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     const user = this.sessionStorageService.get<User>('user');
@@ -32,7 +33,7 @@ export class App implements OnInit, OnDestroy {
 
     this.router.events
       .pipe(
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this.destroyRef),
         filter((event) => event.type === EventType.NavigationEnd)
       )
       .subscribe((event) => {

@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateFn, RedirectCommand, Router } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { map, tap } from 'rxjs';
 
 export const nameGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
   const userService = inject(UserService);
@@ -13,9 +14,10 @@ export const nameGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
     return new RedirectCommand(path);
   }
 
-  userService
+  return userService
     .createUser({ userId: user.id, userName: user.name, gameId: route.params['id'] })
-    .subscribe((response) => userService.setUser(response));
-
-  return true;
+    .pipe(
+      tap((response) => userService.setUser(response)),
+      map(() => true)
+    );
 };
