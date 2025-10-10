@@ -25,15 +25,15 @@ export class GameService {
   }
 
   public createGame(request: CreateGame.Request): Observable<CreateGame.Response> {
-    return this.http.post<CreateGame.Response>('http://localhost:3000/create-game', request);
+    return this.http.post<CreateGame.Response>('/api/create-game', request);
   }
 
   public checkGame(id: string): Observable<boolean> {
-    return this.http.get<boolean>(`http://localhost:3000/check-game/${id}`);
+    return this.http.get<boolean>(`/api/check-game/${id}`);
   }
 
   public getGame(id: string, userId: string | undefined): Observable<Game> {
-    return this.http.get<Game>(`http://localhost:3000/game/${id}`, {
+    return this.http.get<Game>(`/api/game/${id}`, {
       headers: {
         'user-id': userId || '',
       },
@@ -41,6 +41,6 @@ export class GameService {
   }
 
   public endGame(payload: { isFinish: boolean; gameId: string }): Observable<void> {
-    return this.http.post<void>('http://localhost:3000/end-game', payload);
+    return this.http.post<void>('/api/end-game', payload);
   }
 }
