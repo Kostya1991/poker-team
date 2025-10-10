@@ -1,13 +1,22 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { Game } from '../../models/game.interface';
 import { GameTableComponent } from '../../ui/game-table/game-table.component';
 import { ButtonComponent } from '../../ui/button/button.component';
 import { GameCardComponent } from '../../ui/game-card/game-card.component';
 import { GameService } from '../../services/game.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map, tap } from 'rxjs';
+import { map } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import { AlertComponent } from '../../ui/alert/alert.component';
+import { SessionStorageService } from '../../services/session-storage.service';
 
 const USER_CARDS: number[] = [1, 2, 3, 5, 8, 13, 21];
 
@@ -16,7 +25,7 @@ const USER_CARDS: number[] = [1, 2, 3, 5, 8, 13, 21];
   templateUrl: './game-page.component.html',
   styleUrl: './game-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [GameTableComponent, ButtonComponent, GameCardComponent],
+  imports: [GameTableComponent, ButtonComponent, GameCardComponent, AlertComponent],
 })
 export class GamePageComponent {
   private activatedRoute = inject(ActivatedRoute);
@@ -24,6 +33,8 @@ export class GamePageComponent {
   private gameService: GameService = inject(GameService);
 
   private userService: UserService = inject(UserService);
+
+  private sessionStorageService: SessionStorageService = inject(SessionStorageService);
 
   public users = this.gameService.users;
 
@@ -44,6 +55,12 @@ export class GamePageComponent {
   );
 
   public finishGame = signal<boolean>(false);
+
+  constructor() {
+    effect(() => {
+      this.sessionStorageService.set('last-active-game', this.game().id);
+    });
+  }
 
   public selectCard(rate: number): void {
     this.userSelectCard.set(rate);

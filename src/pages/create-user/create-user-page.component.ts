@@ -33,9 +33,11 @@ export class CreateUserPageComponent {
       return;
     }
 
-    this.userService.createUser({ userName: this.userName.value, gameId }).subscribe((response) => {
-      this.userService.setUser(response);
-      this.router.navigate(['/game', gameId]);
-    });
+    this.userService
+      .createUser({ userId: null, userName: this.userName.value, gameId })
+      .subscribe((response) => {
+        this.userService.setUser(response);
+        this.router.navigate(['/game', gameId]);
+      });
   }
 }

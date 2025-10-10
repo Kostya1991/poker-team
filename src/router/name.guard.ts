@@ -13,5 +13,9 @@ export const nameGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
     return new RedirectCommand(path);
   }
 
+  userService
+    .createUser({ userId: user.id, userName: user.name, gameId: route.params['id'] })
+    .subscribe((response) => userService.setUser(response));
+
   return true;
 };

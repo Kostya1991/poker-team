@@ -5,6 +5,7 @@ import { Observable, ObservableInput } from 'rxjs';
 import { CreateUser } from '../models/create-user.namespace';
 import { SessionStorageService } from './session-storage.service';
 import { UpdateUser } from '../models/update-user.namespace';
+import { DeleteUser } from '../models/delete-user.namespase';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -35,5 +36,9 @@ export class UserService {
 
   public updateUser(request: UpdateUser.Request): Observable<void> {
     return this.http.post<void>('http://localhost:3000/update-user', request);
+  }
+
+  public removeUser(request: DeleteUser.Request): Observable<void> {
+    return this.http.post<void>('http://localhost:3000/delete-user', request);
   }
 }

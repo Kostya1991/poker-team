@@ -5,8 +5,12 @@ export class SessionStorageService {
   private readonly storage = sessionStorage;
 
   public get<T>(key: string): T {
-    const data = this.storage.getItem(key);
-    return data ? JSON.parse(data) : (null as T);
+    try {
+      const data = this.storage.getItem(key);
+      return data ? JSON.parse(data) : (null as T);
+    } catch (e) {
+      return this.storage.getItem(key) as T;
+    }
   }
 
   public set(key: string, payload: string): void {

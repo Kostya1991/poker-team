@@ -48,6 +48,12 @@ app.post('/create-user', (req, res) => {
   const body = req.body;
 
   const game = GAMES.find((item) => item.id === body.gameId);
+  const candidate = game.users.find((userItem) => userItem.id === body.userId);
+
+  if (candidate) {
+    res.status(200).send({ ...candidate });
+    return;
+  }
 
   const user = {
     id: randomUUID(),
@@ -57,7 +63,6 @@ app.post('/create-user', (req, res) => {
   };
 
   game.users.push(user);
-
   res.status(200).json({ ...user });
 });
 
@@ -127,6 +132,31 @@ app.post('/update-user', (req, res) => {
   res.status(200).send();
 });
 
+/** Удаление игрока */
+app.post('/delete-user', (req, res) => {
+  const body = req.body;
+
+  const game = GAMES.find((item) => item.id === body.gameId);
+
+  const users = game.users.filter((user) => user.id !== body.userId);
+
+  game.users = users;
+
+  SSE_CONNECTIONS.forEach((connection) => {
+    connection.write(
+      `data: ${JSON.stringify({
+        type: 'User-Update',
+        message: '',
+        creatoreId: null,
+        users: game.users,
+      })}\n\n`
+    );
+  });
+
+  res.status(200).send();
+});
+
+/** Логика завершения игры */
 app.post('/end-game', (req, res) => {
   const body = req.body;
 

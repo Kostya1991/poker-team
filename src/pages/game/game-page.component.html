@@ -2,6 +2,8 @@
 usersForLeftPanel = users().slice(16, 20); @let usersForRightPanel = users().slice(20); @let endGame
 = game().isFinish || finishGame();
 
+<app-alert></app-alert>
+
 <div class="game">
   <h1 class="game__title">{{ game().name }}</h1>
 
