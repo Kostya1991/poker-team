@@ -36,35 +36,36 @@ export class GamePageComponent {
 
   private sessionStorageService: SessionStorageService = inject(SessionStorageService);
 
-  public users = this.gameService.users;
+  public game = this.gameService.game;
 
   public usersCard = signal<number[]>(USER_CARDS);
 
-  public userSelectCard = signal<number | undefined>(this.userService.user?.rate);
+  public userSelectCard = computed(() => {
+    const user = this.userService.user;
+    const gameUser = this.game().users.find((userItem) => userItem.id === user?.id);
+
+    return gameUser?.rate;
+  });
 
   public gameId = toSignal(this.activatedRoute.params.pipe(map((params) => params['id'])), {
     initialValue: '',
   });
 
-  public game = toSignal(this.gameService.getGame(this.gameId(), this.userService.user?.id), {
-    initialValue: { id: '', isFinish: false, name: '', users: [] } as Game,
-  });
-
   public disableTurnButton = computed(
-    () => this.game().isFinish || this.users().some((user) => user.madeChoice)
+    () => this.game().isFinish || this.game().users.some((user) => user.madeChoice)
   );
 
   public finishGame = signal<boolean>(false);
 
   constructor() {
+    this.gameService.getGame(this.gameId(), this.userService.user?.id).subscribe();
+
     effect(() => {
       this.sessionStorageService.set('last-active-game', this.game().id);
     });
   }
 
   public selectCard(rate: number): void {
-    this.userSelectCard.set(rate);
-
     const user = this.userService.user;
 
     if (!user) {
@@ -74,7 +75,7 @@ export class GamePageComponent {
     this.userService
       .updateUser({
         userId: user.id,
-        gameId: this.gameId(),
+        gameId: this.game().id,
         userData: {
           madeChoice: true,
           rate,
@@ -85,26 +86,6 @@ export class GamePageComponent {
 
   public turnCards(isFinish: boolean): void {
     this.finishGame.set(isFinish);
-
-    this.gameService.endGame({ isFinish, gameId: this.gameId() }).subscribe();
-
-    if (!isFinish) {
-      this.userSelectCard.set(undefined);
-      const user = this.userService.user;
-
-      if (!user) {
-        return;
-      }
-      this.userService
-        .updateUser({
-          userId: user.id,
-          gameId: this.gameId(),
-          userData: {
-            madeChoice: false,
-            rate: undefined,
-          },
-        })
-        .subscribe(() => this.userService.setUser({ ...user, madeChoice: false, rate: undefined }));
-    }
+    this.gameService.endGame({ isFinish, gameId: this.game().id }).subscribe();
   }
 }

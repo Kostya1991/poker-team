@@ -1,6 +1,6 @@
-@let usersForTopPanel = users().slice(0, 8); @let usersForBottomPanel = users().slice(8, 16); @let
-usersForLeftPanel = users().slice(16, 20); @let usersForRightPanel = users().slice(20); @let endGame
-= game().isFinish || finishGame();
+@let usersForTopPanel = game().users.slice(0, 8); @let usersForBottomPanel = game().users.slice(8,
+16); @let usersForLeftPanel = game().users.slice(16, 20); @let usersForRightPanel =
+game().users.slice(20); @let endGame = game().isFinish || finishGame();
 
 <app-alert></app-alert>
 

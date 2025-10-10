@@ -17,7 +17,10 @@ export class SseConsumerService {
         this.userConnection(data);
         break;
       case SseEvent.UserUpdate:
-        this.userUpdate(data);
+        this.gameUpdate(data);
+        break;
+      case SseEvent.EndGame:
+        this.endGame(data);
         break;
     }
   }
@@ -26,7 +29,7 @@ export class SseConsumerService {
   private userConnection(data: EventData): void {
     const userId = this.userService.user?.id;
 
-    this.gameService.updateUsers(data.users);
+    this.gameService.updateGame(data.game);
 
     if (userId === data.creatoreId) {
       return;
@@ -36,7 +39,12 @@ export class SseConsumerService {
   }
 
   /** Обработка обновления данных пользователя */
-  private userUpdate(data: EventData): void {
-    this.gameService.updateUsers(data.users);
+  private gameUpdate(data: EventData): void {
+    this.gameService.updateGame(data.game);
+  }
+
+  private endGame(data: EventData): void {
+    this.userService.setUser({ ...this.userService.user!, madeChoice: false, rate: undefined });
+    this.gameUpdate(data);
   }
 }

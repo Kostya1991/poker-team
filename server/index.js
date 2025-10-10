@@ -93,7 +93,7 @@ app.get('/game/:id', (req, res) => {
           type: 'User-Connection',
           message,
           creatoreId: userId,
-          users: game.users,
+          game,
         })}\n\n`
       );
     });
@@ -124,7 +124,7 @@ app.post('/update-user', (req, res) => {
         type: 'User-Update',
         message: '',
         creatoreId: null,
-        users: game.users,
+        game,
       })}\n\n`
     );
   });
@@ -148,7 +148,7 @@ app.post('/delete-user', (req, res) => {
         type: 'User-Update',
         message: '',
         creatoreId: null,
-        users: game.users,
+        game,
       })}\n\n`
     );
   });
@@ -163,6 +163,25 @@ app.post('/end-game', (req, res) => {
   const game = GAMES.find((item) => item.id === body.gameId);
 
   game.isFinish = body.isFinish;
+
+  if (!game.isFinish) {
+    game.users = game.users.map((user) => ({
+      ...user,
+      madeChoice: false,
+      rate: undefined,
+    }));
+  }
+
+  SSE_CONNECTIONS.forEach((connection) => {
+    connection.write(
+      `data: ${JSON.stringify({
+        type: 'End-Game',
+        message: '',
+        creatoreId: null,
+        game,
+      })}\n\n`
+    );
+  });
 
   res.status(200).send();
 });
