@@ -9,14 +9,19 @@ import { User } from '../models/user.interface';
 export class GameService {
   private http = inject(HttpClient);
 
-  private usersState = signal<User[]>([]);
+  private gameState = signal<Game>({
+    id: '',
+    isFinish: false,
+    name: '',
+    users: [],
+  } as Game);
 
-  public get users(): WritableSignal<User[]> {
-    return this.usersState;
+  public get game(): WritableSignal<Game> {
+    return this.gameState;
   }
 
-  public updateUsers(users: User[]): void {
-    this.usersState.set(users);
+  public updateGame(game: Game): void {
+    this.gameState.set(game);
   }
 
   public createGame(request: CreateGame.Request): Observable<CreateGame.Response> {
@@ -33,5 +38,9 @@ export class GameService {
         'user-id': userId || '',
       },
     });
+  }
+
+  public endGame(payload: { isFinish: boolean; gameId: string }): Observable<void> {
+    return this.http.post<void>('http://localhost:3000/end-game', payload);
   }
 }

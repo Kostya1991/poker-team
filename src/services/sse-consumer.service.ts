@@ -16,6 +16,12 @@ export class SseConsumerService {
       case SseEvent.UserConnection:
         this.userConnection(data);
         break;
+      case SseEvent.UserUpdate:
+        this.gameUpdate(data);
+        break;
+      case SseEvent.EndGame:
+        this.endGame(data);
+        break;
     }
   }
 
@@ -23,12 +29,22 @@ export class SseConsumerService {
   private userConnection(data: EventData): void {
     const userId = this.userService.user?.id;
 
-    this.gameService.updateUsers(data.users);
+    this.gameService.updateGame(data.game);
 
     if (userId === data.creatoreId) {
       return;
     }
 
     this.notificationService.showAlert(data.message, 'primary');
+  }
+
+  /** Обработка обновления данных пользователя */
+  private gameUpdate(data: EventData): void {
+    this.gameService.updateGame(data.game);
+  }
+
+  private endGame(data: EventData): void {
+    this.userService.setUser({ ...this.userService.user!, madeChoice: false, rate: undefined });
+    this.gameUpdate(data);
   }
 }

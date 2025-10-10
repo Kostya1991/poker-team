@@ -1,8 +1,11 @@
-@let usersForTopPanel = users().slice(0, 8); @let usersForBottomPanel = users().slice(8, 16); @let
-usersForLeftPanel = users().slice(16, 20); @let usersForRightPanel = users().slice(20);
+@let usersForTopPanel = game().users.slice(0, 8); @let usersForBottomPanel = game().users.slice(8,
+16); @let usersForLeftPanel = game().users.slice(16, 20); @let usersForRightPanel =
+game().users.slice(20); @let endGame = game().isFinish || finishGame();
+
+<app-alert></app-alert>
 
 <div class="game">
-  <h1 class="game__title">{{ title() }}</h1>
+  <h1 class="game__title">{{ game().name }}</h1>
 
   <div class="game__board">
     <!-- Верхняя панель 8 игроков -->
@@ -11,10 +14,10 @@ usersForLeftPanel = users().slice(16, 20); @let usersForRightPanel = users().sli
       <div style="width: 50px; height: 100px">
         <app-game-card
           [userName]="user.name"
-          [mode]="'back'"
+          [mode]="endGame ? 'front' : 'back'"
           [rate]="user.rate"
           [active]="user.madeChoice"
-          [disabled]="false"
+          [disabled]="endGame"
         ></app-game-card>
       </div>
       }
@@ -26,10 +29,10 @@ usersForLeftPanel = users().slice(16, 20); @let usersForRightPanel = users().sli
       <div style="width: 50px; height: 100px">
         <app-game-card
           [userName]="user.name"
-          [mode]="'back'"
+          [mode]="endGame ? 'front' : 'back'"
           [rate]="user.rate"
           [active]="user.madeChoice"
-          [disabled]="false"
+          [disabled]="endGame"
         ></app-game-card>
       </div>
       }
@@ -39,10 +42,14 @@ usersForLeftPanel = users().slice(16, 20); @let usersForRightPanel = users().sli
     <div class="game__board-table">
       <app-game-table>
         <!-- тут должно быть корректное условие, что карты перевернуты -->
-        @if (true) {
-        <app-button [disabled]="disableTurnButton()" text="Перевернуть карты" />
+        @if (!endGame) {
+        <app-button
+          [disabled]="!disableTurnButton()"
+          (onClick)="turnCards(true)"
+          text="Перевернуть карты"
+        />
         } @else {
-        <app-button text="Перезапустить игру" />
+        <app-button text="Перезапустить игру" (onClick)="turnCards(false)" />
         }
       </app-game-table>
     </div>
@@ -53,10 +60,10 @@ usersForLeftPanel = users().slice(16, 20); @let usersForRightPanel = users().sli
       <div style="width: 50px; height: 100px">
         <app-game-card
           [userName]="user.name"
-          [mode]="'back'"
+          [mode]="endGame ? 'front' : 'back'"
           [rate]="user.rate"
           [active]="user.madeChoice"
-          [disabled]="false"
+          [disabled]="endGame"
         ></app-game-card>
       </div>
       }
@@ -68,16 +75,29 @@ usersForLeftPanel = users().slice(16, 20); @let usersForRightPanel = users().sli
       <div style="width: 50px; height: 100px">
         <app-game-card
           [userName]="user.name"
-          [mode]="'back'"
+          [mode]="endGame ? 'front' : 'back'"
           [rate]="user.rate"
           [active]="user.madeChoice"
-          [disabled]="false"
+          [disabled]="endGame"
         ></app-game-card>
       </div>
       }
     </div>
 
     <!-- Карты игрока -->
-    <div class="game__board-row game__board-cards"></div>
+    <div class="game__board-row game__board-cards">
+      @for (card of usersCard(); track card) {
+      <div style="width: 50px; height: 100px">
+        <app-game-card
+          [userName]="''"
+          [mode]="'front'"
+          [rate]="card"
+          [active]="userSelectCard() === card"
+          [disabled]="endGame"
+          (selectCard)="selectCard($event)"
+        ></app-game-card>
+      </div>
+      }
+    </div>
   </div>
 </div>
